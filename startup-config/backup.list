@@ -1,3 +1,5 @@
+# this syntax is a bit weird, but what I am saying here is "back up all of media, but exclude these specific folders.
+# the "allow" entry must come before the "deny" entries, and if the "allow" is not there, this does nothing.
 + /media
 - /media/ARM
 - /media/filebot
