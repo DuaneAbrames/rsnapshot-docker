@@ -12,6 +12,6 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache ~/.n
 COPY logrotate.d/* /etc/logrotate.d/
 COPY startup-script.sh /etc/startup-script.sh
 COPY startup-config/* /root/startup-config/
-COPY update-crontab.sh /root/update-crontab.sh
+COPY update-cron.sh /root/update-cron.sh
 EXPOSE 22
 CMD ["/bin/bash","/etc/startup-script.sh"]
