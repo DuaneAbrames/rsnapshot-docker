@@ -11,7 +11,7 @@ VOLUMES:
   - rsnapshot.config.example **my config, sanitized a bit as a starting point for others.**  
   - backup.list   **my exclude-from file**  
   - ssh/ **mounted seperately as /root/.ssh to hold ssh keys and such persistently**  
-/backup -> /mnt/user/backup **the backup destination**
+/backup -> /mnt/user/backup **the backup destination**  
 /foo -> additional mounted diretory to be backed up **for me, this is a persistent SMB mount to another machine whose goodies I also want to back up**  
 
 I run two of these, the one on my backup server has all the bells and whistles on (cron jobs, logs, etc.) on the backup server, and on the primary (source) server, I install it but dont' really configure anything, it just acts as the ssh-target for the other one.
