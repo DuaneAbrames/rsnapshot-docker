@@ -34,6 +34,9 @@ if [ ! -f /config/cron.weekly/rsnapshot ]; then
     ln -sf /etc/cron.weekly/rsnapshot /config/cron.weekly/rsnapshot
 fi
 
-# 6. Run SSH daemon
+# 6. Update the cron job times based on the environment variables.  See comments in script.
+/bin/bash /root/update-crontab.sh 
+
+# 7. Run SSH daemon
 echo "Starting SSH daemon..."
 exec /usr/sbin/sshd -D
