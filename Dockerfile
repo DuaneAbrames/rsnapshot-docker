@@ -9,6 +9,7 @@ RUN mkdir /run/sshd
 RUN echo "root:!9Pr1nces" | chpasswd
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache ~/.npm
-
+COPY logrotate.d/* /etc/logrotate.d
+copy startup-script.sh /etc/startup-script.sh
 EXPOSE 22
-CMD ["/usr/sbin/sshd","-D"]
+CMD ["/bin/bash","/etc/startup-script.sh"]
