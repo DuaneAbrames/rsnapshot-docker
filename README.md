@@ -1,6 +1,6 @@
 This is a personal project, not explicitly intended for outside consumption, so YMMV and I make no claims or warranty of any kind.  
 
-This container setup has ssh and rsnapshot installed.
+This container setup has ssh and rsnapshot installed.  I am running on Unraid, so if you are not, adjust accordingly.
 
 VOLUMES:  
 
@@ -17,7 +17,7 @@ VOLUMES:
 
 /foo -> additional mounted diretory to be backed up **for me, this is a persistent SMB mount to another machine whose goodies I also want to back up**  
 
-I run two of these, the one on my backup server has all the bells and whistles on (cron jobs, logs, etc.) on the backup server, and on the primary (source) server, I install it but dont' really configure anything, it just acts as the ssh-target for the other one.
+I run two of these, the one on my backup server has all the bells and whistles on (cron jobs, logs, etc.) on the backup server, and on the primary (source) server, I install it but dont' really configure anything, it just acts as the ssh-target for the other one, with each backup source mounted as a root folder (eg /media)
 
 A note about my backups:  
 I have these lines configured in rsnapshot.conf:  
