@@ -27,4 +27,4 @@ backup  root@tiamat:/bigone     tiamat
 backup  /WallPaper      whelp  
 backup  /NintendoSwitch whelp  
 
-But see the backup.list file for the exclusions that pare down those folders to just what I want to back up.  
+See the backup.list file for the exclusions that pare down those folders to just what I want to back up.  Note that I have my backup folders mounted to the "source" container and my backup folder ends up containing one folder per system (tiamat and whelp) in each backup folder (eg alpha.0)
