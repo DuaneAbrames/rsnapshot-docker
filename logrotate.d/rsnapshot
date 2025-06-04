@@ -1,0 +1,6 @@
+/config/logs/rsnapshot.log {
+  rotate 30
+  dateext
+  compress
+  daily
+}
