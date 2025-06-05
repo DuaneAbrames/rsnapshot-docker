@@ -60,9 +60,9 @@ fi
 # test and fix ssh keys for other side - being containers, when updates run the ssh host key gets regenerated on update.
 if [[ -v REMOTE_NAME && -v REMOTE_IP && -v REMOTE_PORT ]]; then
     log "Checking SSH connectivity to ${REMOTE_IP}:${REMOTE_PORT} "
-    ssh -p ${REMOTE_PORT} root@t${REMOTE_IP} pwd >/dev/null
+    ssh -p ${REMOTE_PORT} root@${REMOTE_IP} pwd >/dev/null
     if [[ $? -eq 0 ]]; then 
-      log "ssh key is ok."
+      log "SSH key is ok."
     else
       log "SSH Key is missing, updating known_hosts via ssh-keyscan."
       ssh-keyscan -p ${REMOTE_PORT} ${REMOTE_IP} >~/.ssh/known_hosts
