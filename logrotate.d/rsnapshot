@@ -1,4 +1,4 @@
-/config/logs/rsnapshot.log {
+/config/logs/*.log {
   rotate 30
   dateext
   compress
