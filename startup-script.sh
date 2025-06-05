@@ -30,23 +30,24 @@ mkdir -p /config/cron.weekly
 
 # 4. Symlink cron.daily rsnapshot script
 if [ ! -f /config/cron.daily/rsnapshot ]; then
+    log "/config/cron.daily/rsnapshot is missing, touching it."
     touch /config/cron.daily/rsnapshot
-    chmod 700 /config/cron.daily/rsnapshot
-    log "Linking daily rsnapshot cron job to /config..."
-    ln -sf /config/cron.daily/rsnapshot /etc/cron.daily/rsnapshot
 fi
+log "Linking daily rsnapshot cron job to /config..."
+ln -sf /config/cron.daily/rsnapshot /etc/cron.daily/rsnapshot
+chmod 700 /config/cron.daily/rsnapshot
 
 # 5. Symlink weekly rsnapshot cron script
 if [ ! -f /config/cron.weekly/rsnapshot ]; then
+    log "/config/cron.weekly/rsnapshot is missing, touching it."
     touch /config/cron.weekly/rsnapshot
-    chmod 700 /config/cron.weekly/rsnapshot
 fi
 log "Linking weekly rsnapshot cron job to /config..."
 ln -sf /config/cron.weekly/rsnapshot /etc/cron.weekly/rsnapshot
-
+chmod 700 /config/cron.weekly/rsnapshot
 
 # 6. Update the cron job times based on the environment variables.  See comments in script.
-log "Running updatr-cron script
+log "Running updatr-cron script"
 /bin/bash /root/update-cron.sh 
 
 # 7. Run SSH daemon
