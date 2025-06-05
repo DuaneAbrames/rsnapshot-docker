@@ -1,22 +1,30 @@
 #!/bin/bash
 set -e
 
+LOGFILE="/config/logs/startup-script.log"
+mkdir -p "$(dirname "$LOGFILE")"
+
+log() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" >> "$LOGFILE"
+}
+
+
 # 1. Copy /root/startup-config to /config without overwriting
-echo "Copying /root/startup-config to /config (without overwriting)..."
-cp -an /root/startup-config/* /config/
+log "Copying /root/startup-config to /config (without overwriting)..."
+cp -a --update=none /root/startup-config/* /config/
 
 # 2. Handle rsnapshot.conf
 if [ ! -f /config/rsnapshot.conf ]; then
-    echo "Copying default rsnapshot.conf to /config..."
+    log "Copying default rsnapshot.conf to /config..."
     cp /etc/rsnapshot.conf /config/rsnapshot.conf
 fi
 
-echo "Replacing /etc/rsnapshot.conf with symlink to /config..."
+log "Replacing /etc/rsnapshot.conf with symlink to /config..."
 rm -f /etc/rsnapshot.conf
 ln -s /config/rsnapshot.conf /etc/rsnapshot.conf
 
 # 3. Create cron.daily and cron.weekly under /config
-echo "Ensuring /config/cron.daily and /config/cron.weekly exist..."
+log "Ensuring /config/cron.daily and /config/cron.weekly exist..."
 mkdir -p /config/cron.daily
 mkdir -p /config/cron.weekly
 
@@ -24,7 +32,7 @@ mkdir -p /config/cron.weekly
 if [ ! -f /config/cron.daily/rsnapshot ]; then
     touch /config/cron.daily/rsnapshot
     chmod 700 /config/cron.daily/rsnapshot
-    echo "Linking daily rsnapshot cron job to /config..."
+    log "Linking daily rsnapshot cron job to /config..."
     ln -sf /config/cron.daily/rsnapshot /etc/cron.daily/rsnapshot
 fi
 
@@ -32,13 +40,14 @@ fi
 if [ ! -f /config/cron.weekly/rsnapshot ]; then
     touch /config/cron.weekly/rsnapshot
     chmod 700 /config/cron.weekly/rsnapshot
-    echo "Linking weekly rsnapshot cron job to /config..."
-    ln -sf /config/cron.weekly/rsnapshot /etc/cron.weekly/rsnapshot
 fi
+log "Linking weekly rsnapshot cron job to /config..."
+ln -sf /config/cron.weekly/rsnapshot /etc/cron.weekly/rsnapshot
+
 
 # 6. Update the cron job times based on the environment variables.  See comments in script.
 /bin/bash /root/update-cron.sh 
 
 # 7. Run SSH daemon
-echo "Starting SSH daemon..."
+log "Starting SSH daemon..."
 exec /usr/sbin/sshd -D
