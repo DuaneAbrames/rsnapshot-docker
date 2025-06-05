@@ -21,9 +21,8 @@ fi
 
 DAILY_MINUTE="${DAILY_TIME##*:}"
 DAILY_HOUR="${DAILY_TIME%%:*}"
-DAILY_CMD='test -x /usr/sbin/anacron \|\| { cd / \&\& run-parts --report /etc/cron.daily; }'
-
-if sed -i -E "s|^[0-9]{1,2} [0-9]{1,2}(\s+\*\s+\*\s+\*)\s+root\s+${DAILY_CMD}|\$DAILY_MINUTE \$DAILY_HOUR\1 root ${DAILY_CMD}|" "$CRONTAB_FILE"; then
+DAILY_CMD='test -x /usr/sbin/anacron \|\| \{ cd / \&\& run-parts --report /etc/cron.daily; \}'
+if sed -i -E "s|^[0-9]{1,2} [0-9]{1,2}(\s+\*\s+\*\s+\*)\s+root\s+${DAILY_CMD}|" "${DAILY_MINUTE} ${DAILY_HOUR}\1 root ${DAILY_CMD}|" "$CRONTAB_FILE"; then
     log "Updated daily cron to ${DAILY_HOUR}:${DAILY_MINUTE}"
 else
     log "ERROR: Failed to update daily cron"
@@ -47,9 +46,9 @@ fi
 
 WEEKLY_MINUTE="${WEEKLY_TIME##*:}"
 WEEKLY_HOUR="${WEEKLY_TIME%%:*}"
-WEEKLY_CMD='test -x /usr/sbin/anacron \|\| { cd / \&\& run-parts --report /etc/cron.weekly; }'
+WEEKLY_CMD='test -x /usr/sbin/anacron \|\| \{ cd / \&\& run-parts --report /etc/cron.weekly; \}'
 
-if sed -i -E "s|^[0-9]{1,2} [0-9]{1,2}(\s+\*\s+\*\s+)[0-7]\s+root\s+${WEEKLY_CMD}|\$WEEKLY_MINUTE \$WEEKLY_HOUR\1$WEEKLY_DAY root ${WEEKLY_CMD}|" "$CRONTAB_FILE"; then
+if sed -i -E "s|^[0-9]{1,2} [0-9]{1,2}(\s+\*\s+\*\s+)[0-7]\s+root\s+${WEEKLY_CMD}|" "${WEEKLY_MINUTE} ${WEEKLY_HOUR}\1${WEEKLY_DAY} root ${WEEKLY_CMD}|" "$CRONTAB_FILE"; then
     log "Updated weekly cron to ${WEEKLY_HOUR}:${WEEKLY_MINUTE} on day ${WEEKLY_DAY}"
 else
     log "ERROR: Failed to update weekly cron"
@@ -73,9 +72,9 @@ fi
 
 MONTHLY_MINUTE="${MONTHLY_TIME##*:}"
 MONTHLY_HOUR="${MONTHLY_TIME%%:*}"
-MONTHLY_CMD='test -x /usr/sbin/anacron \|\| { cd / \&\& run-parts --report /etc/cron.monthly; }'
+MONTHLY_CMD='test -x /usr/sbin/anacron \|\| \{ cd / \&\& run-parts --report /etc/cron.monthly; \}'
 
-if sed -i -E "s|^[0-9]{1,2} [0-9]{1,2}(\s+)$MONTHLY_DAY(\s+\*\s+\*)\s+root\s+${MONTHLY_CMD}|\$MONTHLY_MINUTE \$MONTHLY_HOUR\1$MONTHLY_DAY\2 root ${MONTHLY_CMD}|" "$CRONTAB_FILE"; then
+if sed -i -E "s|^[0-9]{1,2} [0-9]{1,2}(\s+)${MONTHLY_DAY}(\s+\*\s+\*)\s+root\s+${MONTHLY_CMD}|" "${MONTHLY_MINUTE} ${MONTHLY_HOUR}\1${MONTHLY_DAY}\2 root ${MONTHLY_CMD}|" "$CRONTAB_FILE"; then
     log "Updated monthly cron to ${MONTHLY_HOUR}:${MONTHLY_MINUTE} on day ${MONTHLY_DAY}"
 else
     log "ERROR: Failed to update monthly cron"
