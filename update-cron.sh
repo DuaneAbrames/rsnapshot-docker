@@ -11,12 +11,12 @@ log() {
 # ======== DAILY JOB ==========
 if [[ -z "$DAILY_TIME" ]]; then
     log "ERROR: DAILY_TIME is not set"
-    exit 1
+    exit 0
 fi
 
 if [[ ! "$DAILY_TIME" =~ ^([01]?[0-9]|2[0-3]):[0-5][0-9]$ ]]; then
     log "ERROR: DAILY_TIME must be in HH:MM format"
-    exit 1
+    exit 0
 fi
 
 DAILY_MINUTE="${DAILY_TIME##*:}"
@@ -32,17 +32,17 @@ fi
 # ======== WEEKLY JOB ==========
 if [[ -z "$WEEKLY_TIME" || -z "$WEEKLY_DAY" ]]; then
     log "ERROR: WEEKLY_TIME and WEEKLY_DAY must be set"
-    exit 1
+    exit 0
 fi
 
 if [[ ! "$WEEKLY_TIME" =~ ^([01]?[0-9]|2[0-3]):[0-5][0-9]$ ]]; then
     log "ERROR: WEEKLY_TIME must be in HH:MM format"
-    exit 1
+    exit 0
 fi
 
 if [[ ! "$WEEKLY_DAY" =~ ^[1-7]$ ]]; then
     log "ERROR: WEEKLY_DAY must be an integer between 1 and 7"
-    exit 1
+    exit 0
 fi
 
 WEEKLY_MINUTE="${WEEKLY_TIME##*:}"
@@ -58,17 +58,17 @@ fi
 # ======== MONTHLY JOB ==========
 if [[ -z "$MONTHLY_TIME" || -z "$MONTHLY_DAY" ]]; then
     log "ERROR: MONTHLY_TIME and MONTHLY_DAY must be set"
-    exit 1
+    exit 0
 fi
 
 if [[ ! "$MONTHLY_TIME" =~ ^([01]?[0-9]|2[0-3]):[0-5][0-9]$ ]]; then
     log "ERROR: MONTHLY_TIME must be in HH:MM format"
-    exit 1
+    exit 0
 fi
 
 if [[ ! "$MONTHLY_DAY" =~ ^([1-9]|[12][0-9]|3[01])$ ]]; then
     log "ERROR: MONTHLY_DAY must be an integer between 1 and 31"
-    exit 1
+    exit 0
 fi
 
 MONTHLY_MINUTE="${MONTHLY_TIME##*:}"
