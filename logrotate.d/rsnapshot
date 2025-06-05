@@ -1,6 +1,5 @@
 /config/logs/*.log {
   rotate 30
   dateext
-  compress
   daily
 }
