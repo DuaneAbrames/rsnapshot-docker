@@ -6,6 +6,7 @@ mkdir -p "$(dirname "$LOGFILE")"
 
 log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" >> "$LOGFILE"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"
 }
 
 
@@ -49,6 +50,24 @@ chmod 700 /config/cron.weekly/rsnapshot
 # 6. Update the cron job times based on the environment variables.  See comments in script.
 log "Running updatr-cron script"
 /bin/bash /root/update-cron.sh 
+
+# adding hosts file entries for our remote endpoint, if set.
+if [[ -v REMOTE_NAME && -v REMOTE_IP ]]; then
+    log "found /config/hosts. Adding contents to /etc/hosts"
+    echo "${REMOTE_IP}  ${REMOTE_NAME}" >>/etc/hosts
+fi
+
+# test and fix ssh keys for other side - being containers, when updates run the ssh host key gets regenerated on update.
+if [[ -v REMOTE_NAME && -v REMOTE_IP && -v REMOTE_PORT ]]; then
+    log "Checking SSH connectivity to ${REMOTE_IP}:${REMOTE_PORT} "
+    ssh -p ${REMOTE_PORT} root@t${REMOTE_IP} pwd >/dev/null
+    if [[ $? -eq 0 ]]; then 
+      log "ssh key is ok."
+    else
+      log "SSH Key is missing, updating known_hosts via ssh-keyscan."
+      ssh-keyscan -p ${REMOTE_PORT} ${REMOTE_IP} >~/.ssh/known_hosts
+    fi
+fi
 
 # 7. Run SSH daemon
 log "Starting SSH daemon..."
