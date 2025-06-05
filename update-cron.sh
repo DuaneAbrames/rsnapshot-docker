@@ -47,7 +47,7 @@ fi
 WEEKLY_MINUTE="${WEEKLY_TIME##*:}"
 WEEKLY_HOUR="${WEEKLY_TIME%%:*}"
 
-if sed -i -E "s#^[0-9]{1,2} [0-9]{1,2}(\s+\*\s+\*\s+)[0-7]\s+root\s+(.*cron.weekly.*)\$#${WEEKLY_MINUTE} ${WEEKLY_HOUR}\1${WEEKLY_DAY}\1\troot\t\2#" "$CRONTAB_FILE"; then
+if sed -i -E "s#^[0-9]{1,2} [0-9]{1,2}(\s+\*\s+\*\s+)[0-7]\s+root\s+(.*cron.weekly.*)\$#${WEEKLY_MINUTE} ${WEEKLY_HOUR}\1${WEEKLY_DAY}\troot\t\2#" "$CRONTAB_FILE"; then
     log "Updated weekly cron to ${WEEKLY_HOUR}:${WEEKLY_MINUTE} on day ${WEEKLY_DAY}"
 else
     log "ERROR: Failed to update weekly cron"
