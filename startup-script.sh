@@ -57,18 +57,6 @@ if [[ -v REMOTE_NAME && -v REMOTE_IP ]]; then
     echo "${REMOTE_IP}  ${REMOTE_NAME}" >>/etc/hosts
 fi
 
-# test and fix ssh keys for other side - being containers, when updates run the ssh host key gets regenerated on update.
-if [[ -v REMOTE_NAME && -v REMOTE_IP && -v REMOTE_PORT ]]; then
-    log "Checking SSH connectivity to ${REMOTE_IP}:${REMOTE_PORT} "
-    ssh -p ${REMOTE_PORT} root@${REMOTE_IP} pwd >/dev/null
-    if [[ $? -eq 0 ]]; then 
-      log "SSH key is ok."
-    else
-      log "SSH Key is missing, updating known_hosts via ssh-keyscan."
-      ssh-keyscan -p ${REMOTE_PORT} ${REMOTE_IP} >~/.ssh/known_hosts
-    fi
-fi
-
 # 7. Run SSH daemon
 log "Starting SSH daemon..."
 exec /usr/sbin/sshd -D
