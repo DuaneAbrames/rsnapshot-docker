@@ -46,6 +46,7 @@ ln -sf /config/cron.weekly/rsnapshot /etc/cron.weekly/rsnapshot
 
 
 # 6. Update the cron job times based on the environment variables.  See comments in script.
+log "Running updatr-cron script
 /bin/bash /root/update-cron.sh 
 
 # 7. Run SSH daemon
