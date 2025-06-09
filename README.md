@@ -6,8 +6,6 @@ VOLUMES:
 
 /config -> /mnt/cache/appdata/rsnapshot-docker #it will contain the following:  
   - logs/  
-  - cron.daily/  
-  - cron.weekly/  
   - rsnapshot.config  **this is symlinked from /etc/rsnapshot.conf**  
   - rsnapshot.config.example **my config, sanitized a bit as a starting point for others.**  
   - backup.list   **my exclude-from file**  
@@ -27,4 +25,4 @@ backup  root@tiamat:/bigone     tiamat
 backup  /WallPaper      whelp  
 backup  /NintendoSwitch whelp  
 
-See the backup.list file for the exclusions that pare down those folders to just what I want to back up.  Note that I have my backup folders mounted to the "source" container and my backup folder ends up containing one folder per system (tiamat and whelp) in each backup folder (eg alpha.0)
+See the backup.list file for the exclusions that pare down those folders to just what I want to back up.  Note that I have my data folders mounted to the "source" container's root and my backup folder ends up containing one folder per system (tiamat and whelp) in each backup folder (eg alpha.0)
