@@ -17,12 +17,7 @@ VOLUMES:
 
 I run two of these, the one on my backup server has all the bells and whistles on (scheduled jobs, logs, etc.) on the backup server, and on the primary (source) server, I install it but dont' really configure anything other than ssh keys, it just acts as the ssh-target for the other one, with each backup source mounted as a root folder (eg /media)
 
-A note about my backups:  
-I have these lines configured in rsnapshot.conf:  
-backup  root@tiamat:/media      tiamat  
-backup  root@tiamat:/miscamin   tiamat  
-backup  root@tiamat:/bigone     tiamat  
-backup  /WallPaper      whelp  
-backup  /NintendoSwitch whelp  
+Note: this won't do a damn thing without additional configuration and an external script to kick off the backup with "docker exec rsnapshot-docker rsnapshot alpha" or similar.  I have included in /extras/ a copy of my script that kicks off the backups and manages logs and alerting.
 
-See the backup.list file for the exclusions that pare down those folders to just what I want to back up.  Note that I have my data folders mounted to the "source" container's root and my backup folder ends up containing one folder per system (tiamat and whelp) in each backup folder (eg alpha.0)
+A note about my backups:  
+I have these "backup" lines in my conf file pretty broad, but see the backup.list file for the exclusions that pare down those folders to just what I want to back up.  Note that I have my data folders mounted to the "source" container's root and my backup folder ends up containing one folder per system (unraid1 and htpc) in each backup folder (eg alpha.0/unraid1/media/Movies/Star Wars (1977)/).
