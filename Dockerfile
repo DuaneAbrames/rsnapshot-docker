@@ -8,7 +8,6 @@ RUN ssh-keygen -A
 RUN mkdir /run/sshd 
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache ~/.npm
-COPY logrotate.d/* /etc/logrotate.d/
 COPY startup-script.sh /etc/startup-script.sh
 COPY startup-config /root/startup-config
 EXPOSE 22
