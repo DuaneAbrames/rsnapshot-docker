@@ -1,6 +1,0 @@
-/config/logs/*.log {
-  rotate 30
-  daily
-  create
-  missingok
-}
